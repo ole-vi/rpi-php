@@ -11,11 +11,11 @@ This image should be compatible with all Raspberry Pi devices
 ## How to use it?
 
 Download image
-'''
+```
 docker pull hirotochigi/php-apache:rpi
-'''
+```
 
 Use the image as a base image
-'''
+```
 FROM hirotochigi/php-apache:rpi
-'''
+```
