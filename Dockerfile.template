@@ -1,9 +1,12 @@
 FROM {{base_image}}
 #FROM treehouses/alpine
 
-RUN apt-get update -y   && apt-get install -y apache2
-
-RUN mkdir /var/run/apache2
+# php7.3-gd is needed for privatebin
+RUN apt-get update -y \
+    && apt-get install -y apache2 \
+                          php \
+                          php7.3-gd \
+                          libapache2-mod-php
 
 EXPOSE 80
 

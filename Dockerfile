@@ -1,8 +1,9 @@
-FROM treehouses/debian:latest
+FROM treehouses/apache:latest
 
-RUN apt-get update -y   && apt-get install -y php libapache2-mod-php php7.3-gd
+RUN apt-get update -y \
+    && apt-get install -y php \
+        libapache2-mod-php
 
-RUN mkdir /var/run/apache2
 
 EXPOSE 80
 
