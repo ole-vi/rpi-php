@@ -1,12 +1,10 @@
 FROM {{base_image}}
-#FROM treehouses/alpine
 
 # php7.3-gd is needed for privatebin
 RUN apt-get update -y \
-    && apt-get install -y apache2 \
-                          php \
-                          php7.3-gd \
-                          libapache2-mod-php
+    && apt-get install -y php \
+        libapache2-mod-php
+
 
 EXPOSE 80
 
