@@ -1,5 +1,4 @@
 FROM {{base_image}}
-#FROM treehouses/alpine
 
 # php7.3-gd is needed for privatebin
 RUN apt-get update -y \
