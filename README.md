@@ -1,12 +1,10 @@
-# rpi-php
+# php-apache
 
-This image is PHP with Apache web server for all Raspberry Pi devices.
+This image is PHP with Apache web server.
+`arm` version is built specially to run on all raspberry pi's
 
-The official image of php:apache is in official PHP Docker Hub.
+https://hub.docker.com/r/treehouses/php-apache
 
-However, the official image is only compatible with Raspberry Pi3 and Raspberry Pi4.
-
-This image should be compatible with all Raspberry Pi devices.
 
 ## How to use it?
 
