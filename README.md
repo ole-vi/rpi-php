@@ -12,10 +12,10 @@ This image should be compatible with all Raspberry Pi devices.
 
 Download image
 ```
-docker pull hirotochigi/php-apache:rpi
+docker pull treehouses/php-apache:rpi
 ```
 
 Use the image as a base image
 ```
-FROM hirotochigi/php-apache:rpi
+FROM treehouses/php-apache:rpi
 ```
