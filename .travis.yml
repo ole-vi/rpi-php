@@ -1,0 +1,60 @@
+sudo: required
+addons:
+  apt:
+    update: true
+    packages:
+    - docker-ce
+services:
+- docker
+script:
+- export DOCKER_CLI_EXPERIMENTAL=enabled
+- source utils.sh
+- apache_arm_sha=$(get_manifest_sha "treehouses/apache:latest" "arm")
+- echo $apache_arm_sha
+- php_apache_arm_sha=$(get_manifest_sha "treehouses/php-apache:latest" "arm")
+- echo $php_apache_arm_sha
+- flag_arm=$(is_base "treehouses/apache@"$apache_arm_sha "treehouses/php-apache@"$php_apache_arm_sha)
+- echo $flag_arm
+- apache_amd64_sha=$(get_manifest_sha "treehouses/apache:latest" "amd64")
+- echo $apache_amd64_sha
+- php_apache_amd64_sha=$(get_manifest_sha "treehouses/php-apache:latest" "amd64")
+- echo $php_apache_amd64_sha
+- flag_amd64=$(is_base "treehouses/apache@"$apache_amd64_sha "treehouses/php-apache@"$php_apache_amd64_sha)
+- echo $flag_amd64
+- apache_arm64_sha=$(get_manifest_sha "treehouses/apache:latest" "arm64")
+- echo $apache_arm64_sha
+- php_apache_arm64_sha=$(get_manifest_sha "treehouses/php-apache:latest" "arm64")
+- echo $php_apache_arm64_sha
+- flag_arm64=$(is_base "treehouses/apache@"$apache_arm64_sha "treehouses/php-apache@"$php_apache_arm64_sha)
+- echo $flag_arm64
+- echo $DOCKERAPIKEY | docker login -u "sevenseas" --password-stdin
+- docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+- build_image "treehouses/apache:latest" arm "treehouses/php-apache"
+- build_image "treehouses/apache:latest" amd64 "treehouses/php-apache"
+- build_image "treehouses/apache:latest" arm64 "treehouses/php-apache"
+- flag=$(compare "treehouses/apache@"$apache_arm_sha "treehouses/php-apache@"$php-apache_arm_sha "treehouses/apache@"$apache_amd64_sha "treehouses/php-apache@"$php-apache_amd64_sha "treehouses/apache@"$apache_arm64_sha "treehouses/php-apache@"$php-apache_arm64_sha "treehouses/php-apache:latest" "treehouses/php-apache-tags:amd64")
+- echo $flag
+#- flag=false
+before_deploy:
+- deploy_image "treehouses/php-apache" arm
+- deploy_image "treehouses/php-apache" amd64
+- deploy_image "treehouses/php-apache" arm64
+- timetag=$(date +%Y%m%d%H%M)
+- echo $timetag
+- tag1="latest"
+- tag2=$timetag
+- echo $tag2
+- create_manifest treehouses/php-apache $tag1 $tag2 treehouses/php-apache-tags:amd64 treehouses/php-apache-tags:arm
+  treehouses/php-apache-tags:arm64
+- docker manifest inspect treehouses/php-apache:$tag1
+- docker manifest inspect treehouses/php-apache:$tag2
+deploy:
+- provider: script
+  script: docker manifest push treehouses/php-apache:$tag1; docker manifest push treehouses/php-apache:$tag2
+  skip_cleanup: true
+  on:
+    all_branches: true
+    condition: "$flag = true"
+env:
+  global:
+    - secure: sxBSRuJ/34Gen86FHGnlwCGt7bMzF8RT+KZN1/hsh7P4ltYDDfPsjLyzgF/RP5nRU+VaC+KHV+Hdb2E+29a7CcV03bsflrskrSUkvVWLC/CqWtNp1Pnk3Pa6DptHztj/BAvzTFe95BOmHs/toXc3GjTMLqynGZayU0NM0PUd9f3cviEYMNPgVA3wbQYMcEO4K/AODt0J7bjEQH+acV3D57iDmkgvQdWNvN7YwDoeE/S8LYqJbkVe30f9ckdWm1kINz8/p/ySslq2vkgTudecP0rBlYhpVYdTL/Q2yg8qa9qvvjWK3rtZTjLWDHZ17fsr4RjXJRI9uDjufOek4ENENlebTmYOLkYi7TDnABiw1zlHlcNQetRJHcTpfXNTJIH4sEEidXRZePyj7LEV71AhYldEYD6OY7yjOZ83G16+vfzHFdFp1Z7agQ0xce+/fqUZTHHj+XZtIkKxXyTfXmG3zd8iMK2ME/3voUesKfCf0bLp2jM9s/kN54FdRNLDGK5hInQXPY4Ddlu/XxHyz2n1jpbvmbUQ9RZ846pl8mezwvqsJlhTSD6DOjexq5KEyWWUCb9wXYfxY8CAe6Eim88Zt/rVEzDm4ryr/U5CKsO58t5xs8N/0T38QO0oTqzvrRsuANT3jgMDP6M3beACTr8QJOOcecgZAGPqod8gAZT6bXI=
