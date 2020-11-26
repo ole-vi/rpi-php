@@ -32,7 +32,7 @@ script:
 - build_image "treehouses/apache:latest" arm "treehouses/php-apache"
 - build_image "treehouses/apache:latest" amd64 "treehouses/php-apache"
 - build_image "treehouses/apache:latest" arm64 "treehouses/php-apache"
-- flag=$(compare "treehouses/apache@"$apache_arm_sha "treehouses/php-apache@"$php-apache_arm_sha "treehouses/apache@"$apache_amd64_sha "treehouses/php-apache@"$php-apache_amd64_sha "treehouses/apache@"$apache_arm64_sha "treehouses/php-apache@"$php-apache_arm64_sha "treehouses/php-apache:latest" "treehouses/php-apache-tags:amd64")
+- flag=$(compare "treehouses/apache@"$apache_arm_sha "treehouses/php-apache@"$php_apache_arm_sha "treehouses/apache@"$apache_amd64_sha "treehouses/php-apache@"$php_apache_amd64_sha "treehouses/apache@"$apache_arm64_sha "treehouses/php-apache@"$php_apache_arm64_sha "treehouses/php-apache:latest" "treehouses/php-apache-tags:amd64")
 - echo $flag
 #- flag=false
 before_deploy:
