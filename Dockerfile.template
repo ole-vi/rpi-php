@@ -2,8 +2,7 @@ FROM {{base_image}}
 
 # php7.3-gd is needed for privatebin
 RUN apt-get update -y \
-    && apt-get install -y php wget \
-        libapache2-mod-php
+    && apt-get install -y wget php libapache2-mod-php
 
 EXPOSE 80
 
