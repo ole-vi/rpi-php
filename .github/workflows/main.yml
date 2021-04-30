@@ -30,8 +30,8 @@ jobs:
           echo $php_apache_amd64_sha
           apache_amd64_sha=$(get_manifest_sha "$base:latest" "amd64")
           echo $apache_amd64_sha
-          #flag_amd64=$(is_base "$base@"$apache_amd64_sha "$repo@"$php_apache_amd64_sha)
-          #echo $flag_amd64
+          flag_amd64=$(is_base "$base@"$apache_amd64_sha "$repo@"$php_apache_amd64_sha)
+          echo $flag_amd64
           #php_apache_arm64_sha=$(get_manifest_sha "$repo:latest" "arm64")
           #echo $php_apache_arm64_sha
           #apache_arm64_sha=$(get_manifest_sha "$base:latest" "arm64")
