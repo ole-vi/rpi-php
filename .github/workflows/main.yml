@@ -45,7 +45,7 @@ jobs:
             build_image "treehouses/apache:latest" arm "$repo"
             build_image "treehouses/apache:latest" amd64 "$repo"
             build_image "treehouses/apache:latest" arm64 "$repo"
-            #deploy_image "$repo" arm
+            deploy_image "$repo" arm
             #deploy_image "$repo" amd64
             #deploy_image "$repo" arm64
             #tag=$(date +%Y%m%d%H%M)
